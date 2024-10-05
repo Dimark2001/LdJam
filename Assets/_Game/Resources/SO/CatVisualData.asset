@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48f4bd6518864299b7a6af1813a3bf30, type: 3}
+  m_Name: CatVisualData
+  m_EditorClassIdentifier: 
+  AwakeSprite: {fileID: 21300000, guid: d41d98fe241485b45b65f8c0d5b9a01a, type: 3}
+  SleepSprite: {fileID: 21300000, guid: 8c6c4807da301f2409af5c10cd0a94d8, type: 3}
+  DeadSprite: {fileID: 0}
