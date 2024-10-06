@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using DG.Tweening;
 using UnityEngine;
@@ -11,16 +12,27 @@ public class BoxTriggerZone : MonoBehaviour
     [SerializeField]
     private Image _loadImage;
     
-    private int _countBox = 0;
+    public static int _countBox = 0;
     private bool _isWin = false;
     private Coroutine _winCoroutine;
     private Sequence _winSeq;
-    
+
+    private void Awake()
+    {
+        _countBox = 0;
+    }
+
+    private void Update()
+    {
+        _loadImage.transform.position = transform.position + new Vector3(0f, 0.01f, 0f);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out MovableObject movableObject))
         {
             _countBox++;
+            AudioManager.PlayAudioClip(LoadFromResource.LoadAudioClip(LoadFromResource.Collect));
             if (_countBox == MovableObject.MovableObjects.Count)
             {
                 _isWin = true;

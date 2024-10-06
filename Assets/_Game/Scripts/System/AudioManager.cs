@@ -39,6 +39,7 @@ public static class LoadFromResource
     public static readonly string CatDead = "Audio/catDead";
     public static readonly string Grab = "Audio/grab";
     public static readonly string Jump = "Audio/jump";
+    public static readonly string Collect = "Audio/collect";
     
     public static AudioClip LoadAudioClip(string path)
     {

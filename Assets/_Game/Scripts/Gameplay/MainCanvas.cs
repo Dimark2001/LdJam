@@ -8,6 +8,9 @@ public class MainCanvas : Singleton<MainCanvas>
     private TextMeshProUGUI _catsWeightText;
 
     [SerializeField]
+    private TextMeshProUGUI _boxCount;
+
+    [SerializeField]
     private TextMeshProUGUI _catsStrengthText;
 
     [SerializeField]
@@ -36,6 +39,7 @@ public class MainCanvas : Singleton<MainCanvas>
 
     private void Update()
     {
+        _boxCount.text = $"{BoxTriggerZone._countBox}/{MovableObject.MovableObjects.Count}";
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (_pausePanel.activeSelf)
