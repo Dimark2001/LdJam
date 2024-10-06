@@ -4,5 +4,47 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/_Game/Scenes/Main.unity
+    guid: 6a2a9aa1e13b71943bf740818eb987ff
+  - enabled: 1
+    path: Assets/_Game/Scenes/Level.unity
+    guid: 17427d754b15d5f4c96d1d4dba7b578f
+  - enabled: 1
+    path: Assets/_Game/Scenes/Level 1.unity
+    guid: 39e54db0e1961a04eafdd2206e07e245
+  - enabled: 1
+    path: Assets/_Game/Scenes/Level 2.unity
+    guid: 1006c2958a7f948478762ee9002c1b48
+  - enabled: 1
+    path: Assets/_Game/Scenes/Level 3.unity
+    guid: 857a8628328a57a438252fc5a79827a5
+  - enabled: 1
+    path: Assets/_Game/Scenes/Level 9.unity
+    guid: dcfa77b8d8a1abc47a9e7ffe75cfdf73
+  - enabled: 1
+    path: Assets/_Game/Scenes/Level 4.unity
+    guid: 55f82df7dd5916643ba2ff398a219d26
+  - enabled: 1
+    path: Assets/_Game/Scenes/Level 5.unity
+    guid: 234ac498d16afa64a86ce0bc904a3f7e
+  - enabled: 1
+    path: Assets/_Game/Scenes/Level 6.unity
+    guid: 2d3752a799b00d64a8c49d88eaa0c6e3
+  - enabled: 1
+    path: Assets/_Game/Scenes/Level 7.unity
+    guid: 29ff80e15abd8e64db5fc6daf54af133
+  - enabled: 1
+    path: Assets/_Game/Scenes/Level 8.unity
+    guid: 3e250407774f0ba4bb79bfb77aea0259
+  - enabled: 1
+    path: Assets/_Game/Scenes/Level 10.unity
+    guid: 19d83e518b564a94fa3f82e56f46e194
+  - enabled: 1
+    path: Assets/_Game/Scenes/Level 11.unity
+    guid: fd396a40bb5a50740bf3ded59346fd9a
+  - enabled: 1
+    path: Assets/_Game/Scenes/Level 12.unity
+    guid: 914d9060c083d7b438c1dfeee18ef1d8
   m_configObjects: {}

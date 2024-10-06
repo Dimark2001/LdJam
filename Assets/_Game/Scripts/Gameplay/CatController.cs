@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using DG.Tweening;
 using UnityEngine;
@@ -6,27 +7,30 @@ public class CatController : MonoBehaviour
 {
     public CatModel Model => _model;
     public float GetStrength => _model.Strength;
-    
+
     [SerializeField]
     private CatVisualData _visualData;
-    
+
     [SerializeField]
     private Transform _targetHand;
-    
+
     [SerializeField]
     private Transform _targetCircle;
-    
+
     [SerializeField]
     private SpriteRenderer _visual;
     
-    private MovableObject _movableObject;
+    [SerializeField]
+    private float _speed = 350f;
+
     private CatModel _model;
 
-    private bool _isGrab;
-    
     private Sequence _normalizeSeq;
     private Sequence _deadSeq;
     
+    private Rigidbody _rb;
+    public bool isSelected = false;
+
     private void OnDestroy()
     {
         _deadSeq?.Kill();
@@ -43,6 +47,10 @@ public class CatController : MonoBehaviour
 
     public void SetModel(CatModel model)
     {
+        if (_rb == null)
+        {
+            _rb = GetComponent<Rigidbody>();
+        }
         _model = model;
         transform.localScale = model.Scale;
         _visual.color = model.Color;
@@ -50,52 +58,46 @@ public class CatController : MonoBehaviour
 
     public void Select()
     {
+        isSelected = true;
         _visual.sprite = _visualData.AwakeSprite;
     }
-    
+
     public void Deselect()
     {
+        isSelected = false;
         _visual.sprite = _visualData.SleepSprite;
     }
-    
+
     public IEnumerator Death()
     {
         _deadSeq = DOTween.Sequence();
-        _deadSeq.AppendInterval(1f);
         _deadSeq.Append(transform.DOMoveY(2f, 0.3f));
         _deadSeq.Append(transform.DOMoveY(-2f, 0.1f));
         yield return _deadSeq.WaitForCompletion();
         Destroy(gameObject);
     }
 
-    public InteractType TryInteractWithMovableObject()
+    public MovableObject TryInteractWithMovableObject()
     {
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            if (!_isGrab)
-            {
-                TryGrab();
-                return InteractType.Grab;
-            }
-            
-            if(_movableObject != null)
-            {
-                _isGrab = false;
-                _movableObject.Release();
-                _movableObject = null;
-                return InteractType.Release;
-            }
-        }
-        
-        return InteractType.None;
+        var movableObject = FindNearbyMovableObject();
+        return movableObject;
     }
-    
+
+    private void FixedUpdate()
+    {
+        Move();
+    }
+
     public void Move()
     {
-        var inputX = Input.GetAxis("Horizontal");
-        var inputY = Input.GetAxis("Vertical");
-        var dir = new Vector3(inputX, 0, inputY);
-        transform.position += dir * (_model.Speed * Time.deltaTime);
+        if (isSelected)
+        {
+            var inputX = Input.GetAxis("Horizontal");
+            var inputY = Input.GetAxis("Vertical");
+            var dir = new Vector3(inputX, 0, inputY);
+            var modelSpeed = dir * (Time.deltaTime * _speed);
+            _rb.velocity = new Vector3(modelSpeed.x, _rb.velocity.y, modelSpeed.z);
+        }
     }
 
     public void UpdateSelectCircle(float rad)
@@ -103,27 +105,34 @@ public class CatController : MonoBehaviour
         _targetCircle.transform.localScale = new Vector3(rad, rad, 0.1f);
     }
 
-    private void TryGrab()
+    private MovableObject FindNearbyMovableObject()
     {
-        var colliders = Physics.OverlapSphere(transform.position, 0.6f);
-        foreach (var col in colliders)
+        foreach (var col in MovableObject.MovableObjects)
         {
-            if(col.TryGetComponent(out MovableObject movableObject))
+            if (Vector3.Distance(col.transform.position, transform.position) > (1f + col.transform.localScale.x / 2))
+                continue;
+
+            if (col.TryGetComponent(out MovableObject movableObject))
             {
-                _movableObject = movableObject;
-                _isGrab = true;
-                if (_movableObject.CanMoveObject(Model.Strength))
-                {
-                    _movableObject.Grab(_targetHand);
-                }
+                return movableObject;
             }
         }
-    }
-}
 
-public enum InteractType
-{
-    None,
-    Grab,
-    Release
+        return null;
+    }
+
+    public void Grab(MovableObject movableObject, Vector3 pos)
+    {
+        movableObject.Grab(_targetHand);
+        var vector3 = new Vector3(pos.x, pos.y + 0.5f, pos.z);
+        _targetHand.DOMove(vector3, 0.3f);
+    }
+
+    public void AddForce()
+    {
+        var modelStrength = Vector3.up * (500f / _model.Strength);
+        var rb = GetComponent<Rigidbody>();
+        rb.velocity = Vector3.zero;
+        rb.AddForce(modelStrength);
+    }
 }
