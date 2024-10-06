@@ -39,7 +39,10 @@ public class MainCanvas : Singleton<MainCanvas>
 
     private void Update()
     {
-        _boxCount.text = $"{BoxTriggerZone._countBox}/{MovableObject.MovableObjects.Count}";
+        if (_boxCount != null)
+        {
+            _boxCount.text = $"{BoxTriggerZone._countBox}/{MovableObject.MovableObjects.Count}";
+        }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (_pausePanel.activeSelf)
@@ -69,7 +72,10 @@ public class MainCanvas : Singleton<MainCanvas>
 
     public void UpdateVisual()
     {
-        _catsStrengthText.text = $"{CatManager.Instance.GetSummaryStrength()}";
+        if (_catsStrengthText != null)
+        {
+            _catsStrengthText.text = $"{CatManager.Instance.GetSummaryStrength()}";
+        }
     }
 
     public void ShowLose()

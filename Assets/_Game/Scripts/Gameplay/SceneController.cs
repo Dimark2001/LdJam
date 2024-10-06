@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public static class SceneController
@@ -16,7 +17,9 @@ public static class SceneController
     {
         var index = SceneManager.GetActiveScene().buildIndex+1;
         if (index >= SceneManager.sceneCountInBuildSettings)
+        {
             index = 0;
+        }
         SceneManager.LoadScene(index);
     }
 
